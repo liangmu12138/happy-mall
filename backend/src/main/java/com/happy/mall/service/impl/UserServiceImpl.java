@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.mall.common.BusinessException;
 import com.happy.mall.entity.User;
 import com.happy.mall.mapper.UserMapper;
-import com.happy.mall.service.StudentInfoService;
 import com.happy.mall.service.UserService;
 import com.happy.mall.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -27,37 +26,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
-    private final StudentInfoService studentInfoService;
 
     @Override
     @Transactional
-    public Map<String, Object> register(String username, String password, String nickname,
-                                         String studentCardId, String school, String major,
-                                         String grade, String className) {
-        // 检查用户名是否已存在
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, username);
-        if (this.count(wrapper) > 0) {
-            throw new BusinessException("用户名已存在");
-        }
-
+    public Map<String, Object> register(String username, String password, String nickname) {
         // 验证学生卡ID
-        if (studentCardId == null || studentCardId.trim().isEmpty()) {
+        if (username == null || username.trim().isEmpty()) {
             throw new BusinessException("学生卡ID不能为空");
         }
 
-        // 创建用户
+        // 验证密码
+        if (password == null || password.trim().isEmpty()) {
+            throw new BusinessException("密码不能为空");
+        }
+
+        // 检查用户名（学生卡ID）是否已存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername, username);
+        if (this.count(wrapper) > 0) {
+            throw new BusinessException("该学生卡ID已注册");
+        }
+
+        // 创建用户（学生卡ID作为用户名）
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        user.setNickname(nickname != null ? nickname : username);
+        user.setNickname(nickname != null && !nickname.trim().isEmpty() ? nickname : "同学" + username.substring(username.length() - 4));
         user.setRole(0); // 普通用户
         user.setStatus(1); // 启用
         user.setGender(0); // 未知
         this.save(user);
-
-        // 保存学生信息
-        studentInfoService.saveStudentInfo(user.getId(), studentCardId, school, major, grade, className);
 
         // 生成 Token
         String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());

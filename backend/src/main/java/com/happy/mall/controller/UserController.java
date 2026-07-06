@@ -28,14 +28,8 @@ public class UserController {
         String username = params.get("username");
         String password = params.get("password");
         String nickname = params.get("nickname");
-        String studentCardId = params.get("studentCardId");
-        String school = params.get("school");
-        String major = params.get("major");
-        String grade = params.get("grade");
-        String className = params.get("className");
 
-        Map<String, Object> result = userService.register(username, password, nickname,
-                studentCardId, school, major, grade, className);
+        Map<String, Object> result = userService.register(username, password, nickname);
         return Result.success("注册成功", result);
     }
 

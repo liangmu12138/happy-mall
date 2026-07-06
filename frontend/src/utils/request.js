@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import router from '../router'
 
 const request = axios.create({
   baseURL: 'http://localhost:8080',
@@ -29,7 +28,7 @@ request.interceptors.response.use(
       ElMessage.error(res.message || '请求失败')
       if (res.code === 401) {
         localStorage.removeItem('token')
-        router.push('/login')
+        window.location.href = '/login'
       }
       return Promise.reject(new Error(res.message || '请求失败'))
     }
@@ -41,7 +40,7 @@ request.interceptors.response.use(
       if (status === 401) {
         ElMessage.error('登录已过期，请重新登录')
         localStorage.removeItem('token')
-        router.push('/login')
+        window.location.href = '/login'
       } else if (status === 403) {
         ElMessage.error('没有权限')
       } else if (status === 404) {

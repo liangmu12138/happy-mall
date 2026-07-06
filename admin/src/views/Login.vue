@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { ElMessage } from 'element-plus'
+import { User, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -35,7 +36,7 @@ const handleLogin = async () => {
 <template>
   <div class="login-container">
     <div class="login-card">
-      <h2 class="login-title">Happy Mall 管理后台</h2>
+      <h2 class="login-title">🎓 Happy Campus 管理后台</h2>
 
       <el-form :model="form" @keyup.enter="handleLogin">
         <el-form-item>
@@ -72,7 +73,7 @@ const handleLogin = async () => {
       </el-form>
 
       <div class="demo-account">
-        <p>🔑 超级管理员：Bzh / Bzh123456#</p>
+        <p>🔑 管理员：admin / admin123</p>
       </div>
     </div>
   </div>

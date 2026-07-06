@@ -3,61 +3,57 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { ElMessage } from 'element-plus'
+import { User, UserFilled, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()
 
 const form = ref({
-  username: '',
-  password: '',
-  confirmPassword: '',
-  nickname: '',
   studentCardId: '',
-  school: '',
-  major: '',
-  grade: '',
-  className: ''
+  nickname: '',
+  password: '',
+  confirmPassword: ''
 })
 const loading = ref(false)
-const currentStep = ref(0)
 
 const handleRegister = async () => {
-  if (currentStep.value === 0) {
-    // 验证基本信息
-    if (!form.value.username || !form.value.password) {
-      ElMessage.warning('请输入用户名和密码')
-      return
-    }
-    if (!form.value.studentCardId) {
-      ElMessage.warning('请输入学生卡ID')
-      return
-    }
-    if (form.value.password !== form.value.confirmPassword) {
-      ElMessage.warning('两次输入的密码不一致')
-      return
-    }
-    if (form.value.password.length < 6) {
-      ElMessage.warning('密码长度不能少于6位')
-      return
-    }
-    currentStep.value = 1
+  // 验证表单
+  if (!form.value.studentCardId) {
+    ElMessage.warning('请输入学生卡ID')
+    return
+  }
+  if (!form.value.nickname) {
+    ElMessage.warning('请输入昵称')
+    return
+  }
+  if (!form.value.password) {
+    ElMessage.warning('请输入密码')
+    return
+  }
+  if (form.value.password !== form.value.confirmPassword) {
+    ElMessage.warning('两次输入的密码不一致')
+    return
+  }
+  if (form.value.password.length < 6) {
+    ElMessage.warning('密码长度不能少于6位')
     return
   }
 
   loading.value = true
   try {
-    await userStore.register(form.value)
-    ElMessage.success('注册成功')
-    router.push('/')
+    // 用学生卡ID作为用户名
+    await userStore.register({
+      username: form.value.studentCardId,
+      password: form.value.password,
+      nickname: form.value.nickname
+    })
+    ElMessage.success('注册成功，请登录')
+    router.push('/login')
   } catch (error) {
     console.error('注册失败', error)
   } finally {
     loading.value = false
   }
-}
-
-const goBack = () => {
-  currentStep.value = 0
 }
 </script>
 
@@ -65,47 +61,37 @@ const goBack = () => {
   <div class="register-container">
     <div class="register-card">
       <h2 class="register-title">🎓 学生注册</h2>
+      <p class="register-subtitle">只需三步，快速加入学习社区</p>
 
-      <!-- 步骤指示器 -->
-      <el-steps :active="currentStep" finish-status="success" align-center class="steps">
-        <el-step title="账号信息" />
-        <el-step title="学校信息" />
-      </el-steps>
-
-      <!-- 第一步：账号信息 -->
-      <el-form v-if="currentStep === 0" :model="form" @keyup.enter="handleRegister">
+      <el-form :model="form" @keyup.enter="handleRegister">
         <el-form-item label="学生卡ID" required>
           <el-input
             v-model="form.studentCardId"
             placeholder="请输入学生卡ID"
             size="large"
+            :prefix-icon="User"
           />
-          <div class="form-tip">用于验证学生身份，请填写真实的学生卡号</div>
+          <div class="form-tip">学生卡ID将作为你的登录账号</div>
         </el-form-item>
 
-        <el-form-item label="用户名" required>
-          <el-input
-            v-model="form.username"
-            placeholder="请输入用户名"
-            size="large"
-          />
-        </el-form-item>
-
-        <el-form-item label="昵称">
+        <el-form-item label="昵称" required>
           <el-input
             v-model="form.nickname"
-            placeholder="请输入昵称（选填）"
+            placeholder="给自己起个昵称吧"
             size="large"
+            :prefix-icon="UserFilled"
           />
+          <div class="form-tip">显示在个人主页和评价中</div>
         </el-form-item>
 
         <el-form-item label="密码" required>
           <el-input
             v-model="form.password"
             type="password"
-            placeholder="请输入密码（至少6位）"
+            placeholder="请设置密码（至少6位）"
             size="large"
             show-password
+            :prefix-icon="Lock"
           />
         </el-form-item>
 
@@ -116,71 +102,19 @@ const goBack = () => {
             placeholder="请再次输入密码"
             size="large"
             show-password
+            :prefix-icon="Lock"
           />
         </el-form-item>
 
         <el-form-item>
-          <el-button
-            type="primary"
-            size="large"
-            @click="handleRegister"
-            style="width: 100%"
-          >
-            下一步
-          </el-button>
-        </el-form-item>
-      </el-form>
-
-      <!-- 第二步：学校信息 -->
-      <el-form v-else :model="form" @keyup.enter="handleRegister">
-        <el-form-item label="学校名称">
-          <el-input
-            v-model="form.school"
-            placeholder="请输入学校名称"
-            size="large"
-          />
-        </el-form-item>
-
-        <el-form-item label="专业">
-          <el-input
-            v-model="form.major"
-            placeholder="请输入专业"
-            size="large"
-          />
-        </el-form-item>
-
-        <el-form-item label="年级">
-          <el-select v-model="form.grade" placeholder="请选择年级" size="large" style="width: 100%">
-            <el-option label="大一" value="大一" />
-            <el-option label="大二" value="大二" />
-            <el-option label="大三" value="大三" />
-            <el-option label="大四" value="大四" />
-            <el-option label="研一" value="研一" />
-            <el-option label="研二" value="研二" />
-            <el-option label="研三" value="研三" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="班级">
-          <el-input
-            v-model="form.className"
-            placeholder="请输入班级（如：计算机2001班）"
-            size="large"
-          />
-        </el-form-item>
-
-        <el-form-item>
-          <el-button size="large" @click="goBack" style="width: 48%">
-            上一步
-          </el-button>
           <el-button
             type="primary"
             size="large"
             :loading="loading"
             @click="handleRegister"
-            style="width: 48%"
+            class="register-btn"
           >
-            完成注册
+            立即注册
           </el-button>
         </el-form-item>
       </el-form>
@@ -199,24 +133,29 @@ const goBack = () => {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .register-card {
-  width: 450px;
+  width: 420px;
   padding: 40px;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .register-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   color: #333;
+  font-size: 24px;
 }
 
-.steps {
+.register-subtitle {
+  text-align: center;
+  color: #999;
   margin-bottom: 30px;
+  font-size: 14px;
 }
 
 .form-tip {
@@ -225,13 +164,23 @@ const goBack = () => {
   margin-top: 5px;
 }
 
+.register-btn {
+  width: 100%;
+}
+
 .register-footer {
   text-align: center;
   margin-top: 20px;
+  color: #666;
 }
 
 .register-footer a {
   color: #667eea;
   text-decoration: none;
+  font-weight: 500;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
 }
 </style>

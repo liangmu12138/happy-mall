@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatFullDateTime } from '../../utils/date'
 
 const route = useRoute()
 const router = useRouter()
@@ -139,7 +140,7 @@ const isFull = computed(() => {
           </el-avatar>
           <div class="info">
             <span class="name">{{ buddy.publisher?.nickname }}</span>
-            <span class="time">发布于 {{ buddy.createTime }}</span>
+            <span class="time">发布于 {{ formatFullDateTime(buddy.createTime) }}</span>
           </div>
         </div>
       </div>

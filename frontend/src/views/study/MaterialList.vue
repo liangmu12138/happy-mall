@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage } from 'element-plus'
+import { Upload, Search } from '@element-plus/icons-vue'
+import { formatRelativeTime } from '../../utils/date'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -186,7 +188,7 @@ const getPriceClass = (price) => {
               <span>❤️ {{ item.likeCount }}</span>
               <span>📥 {{ item.downloadCount }}</span>
             </span>
-            <span class="time">{{ item.createTime }}</span>
+            <span class="time">{{ formatRelativeTime(item.createTime) }}</span>
           </div>
         </div>
       </div>

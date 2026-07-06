@@ -5,7 +5,7 @@
       <h1>敬请期待</h1>
       <p>我们正在努力开发更多实用功能</p>
       <p class="sub">体育模块、娱乐模块即将上线...</p>
-      <el-button type="primary" @click="$router.push('/')">返回首页</el-button>
+      <el-button type="primary" @click="$router.push('/home')">返回首页</el-button>
     </div>
   </div>
 </template>

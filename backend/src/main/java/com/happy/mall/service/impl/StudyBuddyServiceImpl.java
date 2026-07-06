@@ -84,14 +84,28 @@ public class StudyBuddyServiceImpl extends ServiceImpl<StudyBuddyMapper, StudyBu
         }
 
         Map<String, Object> result = new HashMap<>();
-        result.put("buddy", buddy);
 
         // 获取发起人信息
         User user = userMapper.selectById(buddy.getUserId());
         if (user != null) {
             user.setPassword(null);
-            result.put("user", user);
         }
+
+        // 将发起人信息嵌入 buddy 对象
+        Map<String, Object> buddyMap = new HashMap<>();
+        buddyMap.put("id", buddy.getId());
+        buddyMap.put("userId", buddy.getUserId());
+        buddyMap.put("buddyType", buddy.getBuddyType());
+        buddyMap.put("title", buddy.getTitle());
+        buddyMap.put("description", buddy.getDescription());
+        buddyMap.put("location", buddy.getLocation());
+        buddyMap.put("timeInfo", buddy.getTimeInfo());
+        buddyMap.put("target", buddy.getTarget());
+        buddyMap.put("currentMembers", buddy.getCurrentMembers());
+        buddyMap.put("maxMembers", buddy.getMaxMembers());
+        buddyMap.put("createTime", buddy.getCreateTime());
+        buddyMap.put("publisher", user);
+        result.put("buddy", buddyMap);
 
         // 获取参与人列表
         List<StudyBuddyJoin> joins = buddyJoinMapper.selectList(

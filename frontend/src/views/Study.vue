@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import request from '../utils/request'
+import { formatRelativeTime } from '../utils/date'
 
 const router = useRouter()
 
@@ -185,7 +186,7 @@ const getPriceClass = (price) => {
           </div>
           <div class="review-footer">
             <span>❤️ {{ item.likeCount }}</span>
-            <span class="time">{{ item.createTime }}</span>
+            <span class="time">{{ formatRelativeTime(item.createTime) }}</span>
           </div>
         </div>
       </div>
@@ -222,7 +223,7 @@ const getPriceClass = (price) => {
               </el-avatar>
               <div class="info">
                 <span class="nickname">{{ item.nickname }}</span>
-                <span class="time">{{ item.createTime }}</span>
+                <span class="time">{{ formatRelativeTime(item.createTime) }}</span>
               </div>
             </div>
             <el-tag size="small" type="info">{{ item.buddyType }}</el-tag>

@@ -11,11 +11,12 @@ import java.util.Map;
 public interface UserService extends IService<User> {
 
     /**
-     * 用户注册（包含学生卡信息）
+     * 用户注册
+     * @param username 学生卡ID（作为用户名）
+     * @param password 密码
+     * @param nickname 昵称
      */
-    Map<String, Object> register(String username, String password, String nickname,
-                                  String studentCardId, String school, String major,
-                                  String grade, String className);
+    Map<String, Object> register(String username, String password, String nickname);
 
     /**
      * 用户登录

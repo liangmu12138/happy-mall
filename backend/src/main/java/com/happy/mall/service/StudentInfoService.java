@@ -11,7 +11,7 @@ public interface StudentInfoService extends IService<StudentInfo> {
     /**
      * 保存学生信息
      */
-    void saveStudentInfo(Long userId, String studentCardId, String school, String major, String grade, String className);
+    void saveStudentInfo(Long userId, String studentCardId);
 
     /**
      * 获取学生信息

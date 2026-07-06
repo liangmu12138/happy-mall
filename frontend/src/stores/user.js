@@ -18,12 +18,9 @@ export const useUserStore = defineStore('user', () => {
     return res
   }
 
-  // 注册
+  // 注册（注册后不自动登录，跳转到登录页）
   async function register(userData) {
     const res = await request.post('/api/user/register', userData)
-    token.value = res.data.token
-    userInfo.value = res.data.user
-    localStorage.setItem('token', res.data.token)
     return res
   }
 

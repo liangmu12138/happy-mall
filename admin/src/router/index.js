@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '../stores/user'
 
 const routes = [
   {
@@ -22,22 +21,22 @@ const routes = [
         meta: { title: '控制台' }
       },
       {
-        path: 'product',
-        name: 'Product',
-        component: () => import('../views/Product.vue'),
-        meta: { title: '商品管理' }
+        path: 'material',
+        name: 'MaterialManage',
+        component: () => import('../views/MaterialManage.vue'),
+        meta: { title: '资料管理' }
       },
       {
-        path: 'category',
-        name: 'Category',
-        component: () => import('../views/Category.vue'),
-        meta: { title: '分类管理' }
+        path: 'review',
+        name: 'ReviewManage',
+        component: () => import('../views/ReviewManage.vue'),
+        meta: { title: '评价管理' }
       },
       {
-        path: 'order',
-        name: 'Order',
-        component: () => import('../views/Order.vue'),
-        meta: { title: '订单管理' }
+        path: 'buddy',
+        name: 'BuddyManage',
+        component: () => import('../views/BuddyManage.vue'),
+        meta: { title: '搭子管理' }
       },
       {
         path: 'user',
@@ -56,22 +55,28 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/admin/'),
+  history: createWebHistory(),
   routes
 })
 
+// 路由守卫 - 延迟加载 store 避免循环依赖
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore()
-  const isLoggedIn = userStore.isLoggedIn
-  const isAdmin = userStore.isAdmin
+  // 动态导入避免初始化时循环依赖
+  import('../stores/user.js').then(({ useUserStore }) => {
+    const userStore = useUserStore()
+    const isLoggedIn = userStore.isLoggedIn
+    const isAdmin = userStore.isAdmin
 
-  if (to.meta.requiresAuth && (!isLoggedIn || !isAdmin)) {
-    next({ name: 'Login' })
-  } else if (to.meta.requiresGuest && isLoggedIn) {
-    next({ name: 'Dashboard' })
-  } else {
+    if (to.meta.requiresAuth && (!isLoggedIn || !isAdmin)) {
+      next({ name: 'Login' })
+    } else if (to.meta.requiresGuest && isLoggedIn) {
+      next({ name: 'Dashboard' })
+    } else {
+      next()
+    }
+  }).catch(() => {
     next()
-  }
+  })
 })
 
 export default router

@@ -11,8 +11,8 @@ public class PasswordGenerator {
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        // 生成 Bzh123456# 的加密密码
-        String rawPassword = "Bzh123456#";
+        // 生成 admin123 的加密密码
+        String rawPassword = "admin123";
         String encodedPassword = encoder.encode(rawPassword);
         System.out.println("密码: " + rawPassword);
         System.out.println("加密后: " + encodedPassword);

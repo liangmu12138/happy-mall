@@ -11,11 +11,11 @@ const isCollapse = ref(false)
 
 const menuItems = [
   { path: '/dashboard', icon: 'Monitor', title: '控制台' },
-  { path: '/product', icon: 'ShoppingCart', title: '商品管理' },
-  { path: '/category', icon: 'Grid', title: '分类管理' },
-  { path: '/order', icon: 'Document', title: '订单管理' },
+  { path: '/material', icon: 'Document', title: '资料管理' },
+  { path: '/review', icon: 'Star', title: '评价管理' },
+  { path: '/buddy', icon: 'UserFilled', title: '搭子管理' },
   { path: '/user', icon: 'User', title: '用户管理' },
-  { path: '/admin', icon: 'UserFilled', title: '管理员管理' }
+  { path: '/admin', icon: 'Setting', title: '管理员管理' }
 ]
 
 const handleLogout = () => {
@@ -35,8 +35,8 @@ const handleLogout = () => {
     <!-- 侧边栏 -->
     <el-aside :width="isCollapse ? '64px' : '220px'" class="aside">
       <div class="logo">
-        <span v-if="!isCollapse">Happy Mall 管理后台</span>
-        <span v-else>HM</span>
+        <span v-if="!isCollapse">🎓 Happy Campus</span>
+        <span v-else>HC</span>
       </div>
       <el-menu
         :default-active="$route.path"

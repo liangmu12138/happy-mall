@@ -146,15 +146,11 @@ CREATE TABLE IF NOT EXISTS `address` (
     KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
 
--- 学生信息表
+-- 学生信息表（简化版，仅存储学生卡ID）
 CREATE TABLE IF NOT EXISTS `student_info` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `user_id` BIGINT NOT NULL COMMENT '用户ID',
     `student_card_id` VARCHAR(50) NOT NULL COMMENT '学生卡ID',
-    `school` VARCHAR(100) DEFAULT NULL COMMENT '学校名称',
-    `major` VARCHAR(100) DEFAULT NULL COMMENT '专业',
-    `grade` VARCHAR(20) DEFAULT NULL COMMENT '年级',
-    `class_name` VARCHAR(50) DEFAULT NULL COMMENT '班级',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted` TINYINT DEFAULT 0,

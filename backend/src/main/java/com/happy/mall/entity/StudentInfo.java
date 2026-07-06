@@ -25,24 +25,4 @@ public class StudentInfo extends BaseEntity {
      * 学生卡ID
      */
     private String studentCardId;
-
-    /**
-     * 学校名称
-     */
-    private String school;
-
-    /**
-     * 专业
-     */
-    private String major;
-
-    /**
-     * 年级
-     */
-    private String grade;
-
-    /**
-     * 班级
-     */
-    private String className;
 }

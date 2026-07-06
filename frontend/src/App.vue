@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/user'
 import { ElMessageBox } from 'element-plus'
+import { User, SwitchButton } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -15,7 +16,7 @@ const handleLogout = () => {
     type: 'warning'
   }).then(() => {
     userStore.logout()
-    router.push('/')
+    router.push('/login')
   })
 }
 </script>
@@ -25,13 +26,13 @@ const handleLogout = () => {
     <!-- 顶部导航栏 -->
     <el-header class="header">
       <div class="header-content">
-        <div class="logo" @click="router.push('/')">
+        <div class="logo" @click="router.push('/home')">
           <span class="icon">🎓</span>
           <span class="text">Happy Campus</span>
         </div>
 
         <nav class="nav-center">
-          <span class="nav-item" @click="router.push('/')">首页</span>
+          <span class="nav-item" @click="router.push('/home')">首页</span>
           <span class="nav-item" @click="router.push('/study')">学习</span>
           <span class="nav-item disabled">体育</span>
           <span class="nav-item disabled">娱乐</span>

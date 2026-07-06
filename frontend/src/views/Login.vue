@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { ElMessage } from 'element-plus'
+import { User, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -26,7 +27,7 @@ const handleLogin = async () => {
     ElMessage.success('登录成功')
 
     // 跳转到之前的页面或首页
-    const redirect = route.query.redirect || '/'
+    const redirect = route.query.redirect || '/home'
     router.push(redirect)
   } catch (error) {
     console.error('登录失败', error)
@@ -45,7 +46,7 @@ const handleLogin = async () => {
         <el-form-item>
           <el-input
             v-model="form.username"
-            placeholder="请输入用户名"
+            placeholder="请输入学生卡ID"
             :prefix-icon="User"
             size="large"
           />
@@ -81,9 +82,8 @@ const handleLogin = async () => {
       </div>
 
       <div class="demo-account">
-        <p>测试账号：</p>
-        <p>管理员：admin / admin123</p>
-        <p>普通用户：testuser / user123</p>
+        <p>💡 提示：学生卡ID即为登录账号</p>
+        <p>🔑 管理员：admin / admin123</p>
       </div>
     </div>
   </div>

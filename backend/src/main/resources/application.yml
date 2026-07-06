@@ -26,7 +26,7 @@ mybatis-plus:
       logic-not-delete-value: 0
 
 jwt:
-  secret: happy-mall-secret-key-2024-very-long-and-secure
+  secret: HCampus2026$SecretKey#VeryLong!AndSecure@JwtToken
   expiration: 604800000  # 7天
 
 springdoc:

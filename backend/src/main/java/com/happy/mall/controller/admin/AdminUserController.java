@@ -66,6 +66,20 @@ public class AdminUserController {
         return Result.success("操作成功");
     }
 
+    @Operation(summary = "删除用户（逻辑删除）")
+    @DeleteMapping("/{id}")
+    public Result<?> deleteUser(@PathVariable Long id) {
+        User user = userService.getById(id);
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+        if (user.getRole() == 1) {
+            return Result.error("不能删除管理员账号");
+        }
+        userService.removeById(id);
+        return Result.success("删除成功");
+    }
+
     @Operation(summary = "获取用户统计")
     @GetMapping("/statistics")
     public Result<?> getUserStatistics() {

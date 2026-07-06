@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class StudentInfoServiceImpl extends ServiceImpl<StudentInfoMapper, StudentInfo> implements StudentInfoService {
 
     @Override
-    public void saveStudentInfo(Long userId, String studentCardId, String school, String major, String grade, String className) {
+    public void saveStudentInfo(Long userId, String studentCardId) {
         // 检查学生卡ID是否已存在
         if (checkStudentCardIdExists(studentCardId)) {
             throw new BusinessException("该学生卡ID已被注册");
@@ -24,10 +24,6 @@ public class StudentInfoServiceImpl extends ServiceImpl<StudentInfoMapper, Stude
         StudentInfo studentInfo = new StudentInfo();
         studentInfo.setUserId(userId);
         studentInfo.setStudentCardId(studentCardId);
-        studentInfo.setSchool(school);
-        studentInfo.setMajor(major);
-        studentInfo.setGrade(grade);
-        studentInfo.setClassName(className);
         this.save(studentInfo);
     }
 

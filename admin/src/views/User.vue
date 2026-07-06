@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import request from '../utils/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatDateTime } from '../utils/date'
 
 const userList = ref([])
 const loading = ref(false)
@@ -46,6 +47,25 @@ const handleStatusChange = async (user) => {
   } catch (error) {
     console.error('操作失败', error)
     fetchUsers()
+  }
+}
+
+const handleDelete = async (user) => {
+  if (user.role === 1) {
+    ElMessage.warning('不能删除管理员账号')
+    return
+  }
+  await ElMessageBox.confirm(`确定要删除用户「${user.nickname || user.username}」吗？`, '提示', {
+    confirmButtonText: '确定删除',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  try {
+    await request.delete(`/api/admin/user/${user.id}`)
+    ElMessage.success('删除成功')
+    fetchUsers()
+  } catch (error) {
+    console.error('删除失败', error)
   }
 }
 
@@ -102,7 +122,18 @@ const handlePageChange = (page) => {
             />
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="注册时间" width="180" />
+        <el-table-column label="注册时间" width="180">
+          <template #default="{ row }">
+            {{ formatDateTime(row.createTime) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="100" fixed="right">
+          <template #default="{ row }">
+            <el-button text type="danger" size="small" @click="handleDelete(row)" :disabled="row.role === 1">
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
 
       <div class="pagination" v-if="pagination.total > filters.pageSize">

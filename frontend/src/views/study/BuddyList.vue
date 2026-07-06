@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage } from 'element-plus'
+import { Plus, Search } from '@element-plus/icons-vue'
+import { formatRelativeTime } from '../../utils/date'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -33,6 +35,17 @@ const submitForm = ref({
 })
 
 const buddyTypes = ['自习', '考研', '四六级', '编程', '其他']
+
+const getTypeTag = (type) => {
+  const map = {
+    '自习': '',
+    '考研': 'warning',
+    '四六级': 'success',
+    '编程': 'danger',
+    '其他': 'info'
+  }
+  return map[type] || ''
+}
 
 onMounted(() => {
   fetchBuddies()
@@ -167,7 +180,7 @@ const submitBuddy = async () => {
             </el-avatar>
             <div class="info">
               <span class="nickname">{{ item.nickname }}</span>
-              <span class="time">{{ item.createTime }}</span>
+              <span class="time">{{ formatRelativeTime(item.createTime) }}</span>
             </div>
           </div>
           <el-tag size="small" :type="getTypeTag(item.buddyType)">
@@ -242,23 +255,6 @@ const submitBuddy = async () => {
     </el-dialog>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    getTypeTag(type) {
-      const map = {
-        '自习': '',
-        '考研': 'warning',
-        '四六级': 'success',
-        '编程': 'danger',
-        '其他': 'info'
-      }
-      return map[type] || ''
-    }
-  }
-}
-</script>
 
 <style scoped>
 .page-header {

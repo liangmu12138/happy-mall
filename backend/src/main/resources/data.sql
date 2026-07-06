@@ -1,48 +1,38 @@
 -- 插入测试数据
 
--- 测试用户（密码：user123）
+-- 测试用户（学生卡ID: testuser, 密码: user123）
 INSERT INTO `user` (`username`, `password`, `nickname`, `role`, `status`) VALUES
-('testuser', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '测试用户', 0, 1);
+('testuser', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '测试同学', 0, 1);
 
 -- 测试学生信息
-INSERT INTO `student_info` (`user_id`, `student_card_id`, `school`, `major`, `grade`, `class_name`) VALUES
-(2, '2021001001', '清华大学', '计算机科学', '大三', '计算机2101班');
+INSERT INTO `student_info` (`user_id`, `student_card_id`) VALUES
+(2, '2021001001');
 
--- 分类数据
+-- 学习资料分类数据
 INSERT INTO `category` (`name`, `parent_id`, `sort`, `status`) VALUES
-('手机数码', 0, 1, 1),
-('电脑办公', 0, 2, 1),
-('家用电器', 0, 3, 1),
-('服饰鞋包', 0, 4, 1),
-('食品饮料', 0, 5, 1);
+('教材', 0, 1, 1),
+('笔记', 0, 2, 1),
+('考研', 0, 3, 1),
+('考级', 0, 4, 1),
+('课件', 0, 5, 1),
+('其他', 0, 6, 1);
 
--- 手机数码子分类
-INSERT INTO `category` (`name`, `parent_id`, `sort`, `status`) VALUES
-('手机', 1, 1, 1),
-('平板', 1, 2, 1),
-('耳机', 1, 3, 1),
-('智能手表', 1, 4, 1);
+-- 测试学习资料
+INSERT INTO `study_material` (`user_id`, `title`, `description`, `category`, `subject`, `price`, `download_count`, `like_count`, `status`) VALUES
+(2, '高等数学上册笔记', '详细整理了高数上的重点知识，适合期末复习', '笔记', '高等数学', 0, 128, 45, 1),
+(2, '线性代数习题集', '包含历年考试真题和详解', '教材', '线性代数', 5.00, 89, 32, 1),
+(2, '大学英语四级词汇', '核心词汇整理，带例句', '考级', '大学英语', 0, 256, 78, 1),
+(2, '数据结构课件', '老师上课用的PPT，包含所有章节', '课件', '数据结构', 0, 167, 56, 1),
+(2, '考研数学真题解析', '近十年考研数学真题详细解析', '考研', '数学', 9.90, 312, 98, 1);
 
--- 电脑办公子分类
-INSERT INTO `category` (`name`, `parent_id`, `sort`, `status`) VALUES
-('笔记本', 2, 1, 1),
-('台式机', 2, 2, 1),
-('显示器', 2, 3, 1),
-('键盘鼠标', 2, 4, 1);
+-- 测试课程评价
+INSERT INTO `course_review` (`user_id`, `course_name`, `teacher_name`, `rating`, `difficulty`, `exam_difficulty`, `grade_score`, `content`, `tips`, `like_count`, `status`) VALUES
+(2, '高等数学A', '张老师', 5, 4, 3, 5, '张老师讲课非常清晰，重难点突出，给分也很友好', '上课认真听讲，课后多做习题', 23, 1),
+(2, '线性代数', '李老师', 4, 3, 3, 4, '老师很负责，但是内容比较抽象需要多理解', '建议配合视频教程学习', 15, 1),
+(2, '大学英语', '王老师', 4, 2, 2, 5, '课堂氛围很好，作业不多，给分不错', '平时注意积累单词', 18, 1);
 
--- 商品数据
-INSERT INTO `product` (`name`, `description`, `price`, `original_price`, `stock`, `sales`, `category_id`, `main_image`, `status`) VALUES
-('iPhone 15 Pro Max', '苹果最新旗舰手机，A17 Pro芯片', 9999.00, 10999.00, 100, 50, 6, 'https://via.placeholder.com/300', 1),
-('MacBook Pro 14寸', 'M3 Pro芯片，专业级笔记本', 16999.00, 17999.00, 50, 30, 10, 'https://via.placeholder.com/300', 1),
-('AirPods Pro 2', '主动降噪蓝牙耳机', 1799.00, 1999.00, 200, 150, 8, 'https://via.placeholder.com/300', 1),
-('Apple Watch Series 9', '智能健康手表', 2999.00, 3299.00, 150, 80, 9, 'https://via.placeholder.com/300', 1),
-('小米14', '骁龙8 Gen3旗舰手机', 4999.00, 5299.00, 200, 120, 6, 'https://via.placeholder.com/300', 1),
-('联想小新Pro 16', '16英寸轻薄笔记本', 5999.00, 6499.00, 100, 60, 10, 'https://via.placeholder.com/300', 1),
-('华为FreeBuds Pro 3', '降噪蓝牙耳机', 1499.00, 1699.00, 180, 100, 8, 'https://via.placeholder.com/300', 1),
-('Redmi Buds 4 Pro', '高性价比降噪耳机', 399.00, 499.00, 500, 300, 8, 'https://via.placeholder.com/300', 1),
-('戴森V15 Detect', '智能无绳吸尘器', 4990.00, 5490.00, 80, 40, 17, 'https://via.placeholder.com/300', 1),
-('美的空调', '1.5匹变频空调', 3299.00, 3699.00, 100, 70, 17, 'https://via.placeholder.com/300', 1);
-
--- 测试收货地址
-INSERT INTO `address` (`user_id`, `name`, `phone`, `province`, `city`, `district`, `detail`, `is_default`) VALUES
-(2, '张三', '13800138000', '北京市', '北京市', '朝阳区', '某某街道123号', 1);
+-- 测试学习搭子
+INSERT INTO `study_buddy` (`user_id`, `buddy_type`, `title`, `description`, `target`, `location`, `time_info`, `max_members`, `current_members`, `status`) VALUES
+(2, '自习', '期末复习自习搭子', '一起复习高数和线代，互相监督', '期末考试全科通过', '图书馆三楼', '每天晚上7-10点', 4, 1, 1),
+(2, '考研', '25考研数学组队', '找一起考研的小伙伴，共享资料，互相鼓励', '考研上岸', '自习室', '每天上午9-12点', 3, 1, 1),
+(2, '四六级', '四级备考小组', '一起背单词、练听力，打卡学习', '四级550+', '线上+线下', '每天晚上8-9点', 5, 1, 1);

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatFullDateTime } from '../../utils/date'
 
 const route = useRoute()
 const router = useRouter()
@@ -108,7 +109,7 @@ const handleDelete = async () => {
             ❤️ {{ review.likeCount }} 点赞
           </el-button>
         </div>
-        <div class="time">{{ review.createTime }}</div>
+        <div class="time">发布时间：{{ formatFullDateTime(review.createTime) }}</div>
       </div>
 
       <div class="actions" v-if="isOwner">

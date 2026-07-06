@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `admin_log` (
     KEY `idx_admin_id` (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员操作日志表';
 
--- 超级管理员账号会在应用启动时自动创建
--- 账号：Bzh / Bzh123456#
+-- 管理员账号会在应用启动时自动创建
+-- 账号：admin / admin123
 
 SELECT '✅ 数据库更新完成！' AS '结果';

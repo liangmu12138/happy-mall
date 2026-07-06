@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Star, Download, Delete } from '@element-plus/icons-vue'
+import { formatFullDateTime } from '../../utils/date'
 
 const route = useRoute()
 const router = useRouter()
@@ -92,7 +94,7 @@ const getPriceText = (price) => {
           <div class="meta">
             <el-tag>{{ material.category }}</el-tag>
             <span v-if="material.subject" class="subject">{{ material.subject }}</span>
-            <span class="time">{{ material.createTime }}</span>
+            <span class="time">发布时间：{{ formatFullDateTime(material.createTime) }}</span>
           </div>
         </div>
         <div class="price-section">

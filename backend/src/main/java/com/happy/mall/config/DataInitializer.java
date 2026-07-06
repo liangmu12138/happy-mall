@@ -23,24 +23,24 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // 检查超级管理员是否存在
+        // 确保 admin 管理员账号存在
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, "Bzh");
+        wrapper.eq(User::getUsername, "admin");
         User admin = userMapper.selectOne(wrapper);
 
         if (admin == null) {
-            // 创建超级管理员
+            // 创建管理员
             admin = new User();
-            admin.setUsername("Bzh");
-            admin.setPassword(passwordEncoder.encode("Bzh123456#"));
-            admin.setNickname("超级管理员");
-            admin.setRole(1); // 管理员
-            admin.setStatus(1); // 启用
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setNickname("管理员");
+            admin.setRole(1);
+            admin.setStatus(1);
             admin.setGender(0);
             userMapper.insert(admin);
-            log.info("✅ 超级管理员账号创建成功: Bzh / Bzh123456#");
+            log.info("✅ 管理员账号创建成功: admin / admin123");
         } else {
-            log.info("✅ 超级管理员账号已存在");
+            log.info("✅ 管理员账号已存在");
         }
     }
 }

@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import request from '../../utils/request'
 import { ElMessage } from 'element-plus'
+import { Edit } from '@element-plus/icons-vue'
+import { formatRelativeTime } from '../../utils/date'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -196,7 +198,7 @@ const handleLike = async (id, event) => {
           <el-button text @click="(e) => handleLike(item.id, e)">
             ❤️ {{ item.likeCount }}
           </el-button>
-          <span class="time">{{ item.createTime }}</span>
+          <span class="time">{{ formatRelativeTime(item.createTime) }}</span>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import request from '../utils/request'
+import { formatRelativeTime } from '../utils/date'
 
 const router = useRouter()
 

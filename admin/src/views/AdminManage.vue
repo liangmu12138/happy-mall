@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import request from '../utils/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatDateTime } from '../utils/date'
 
 const adminList = ref([])
 const loading = ref(false)
@@ -120,7 +121,11 @@ const handleEnable = async (admin) => {
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180" />
+        <el-table-column label="创建时间" width="180">
+          <template #default="{ row }">
+            {{ formatDateTime(row.createTime) }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button
