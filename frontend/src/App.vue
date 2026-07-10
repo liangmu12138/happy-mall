@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/user'
 import { ElMessageBox } from 'element-plus'
 import { User, SwitchButton } from '@element-plus/icons-vue'
+import AiChat from './components/AiChat.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -75,8 +76,11 @@ const handleLogout = () => {
 
     <!-- 底部 -->
     <el-footer class="footer">
-      <p>© 2024 Happy Campus - 大学生学习资源共享平台</p>
+      <p>© {{ new Date().getFullYear() }} Happy Campus - 大学生学习资源共享平台</p>
     </el-footer>
+
+    <!-- AI小助手 -->
+    <AiChat />
   </div>
 </template>
 

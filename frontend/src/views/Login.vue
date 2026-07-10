@@ -83,7 +83,6 @@ const handleLogin = async () => {
 
       <div class="demo-account">
         <p>💡 提示：学生卡ID即为登录账号</p>
-        <p>🔑 管理员：admin / admin123</p>
       </div>
     </div>
   </div>

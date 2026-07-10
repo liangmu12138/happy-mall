@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/login", "/api/user/register").permitAll()
                         .requestMatchers("/api/product/**", "/api/category/**").permitAll()
                         .requestMatchers("/api/study/**").permitAll()
+                        .requestMatchers("/api/ai/**").permitAll()
                         // Swagger
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/doc.html/**").permitAll()
                         // 静态资源
